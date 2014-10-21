@@ -16,8 +16,8 @@
  *
  * If you use a defer inline script, you have to manually call boot() function :
  *
- * &lt;script defer type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">&lt;/script>
- * &lt;script type="text/javascript">jQl.boot();&lt;/script>
+ * &lt;script defer type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'>&lt;/script>
+ * &lt;script type='text/javascript'>jQl.boot();&lt;/script>
  *
  *
  *
@@ -42,29 +42,29 @@ var jQl={
 	/**
 	 * the inline calls queue
 	 */
-	"q":[],
+	'q':[],
 
 	/**
 	 * the jQuery dependencies xhr loaded queue
 	 */
-	"dq":[],
+	'dq':[],
 
 	/**
 	 * the jQuery.getScript queue
 	 */
-	"gs":[],
+	'gs':[],
 
 	/**
 	 * the ready function that collect calls and put it in the queue
 	 */
-	"ready":function(f){
+	'ready':function(f){
 		if(typeof f=='function'){
 			jQl.q.push(f);
 		}
 		// return jQl in order to support jQuery(document).ready()
 		return jQl;
 	},
-	"getScript":function(s,c){
+	'getScript':function(s,c){
 		jQl.gs.push([s,c]);
 	},
 
@@ -74,7 +74,7 @@ var jQl={
 	 * in the right order and purge the queue
 	 *
 	 */
-	"unq":function(){
+	'unq':function(){
 		for(var i=0;i<jQl.q.length;i++)
 			jQl.q[i]();
 		jQl.q=[];},
@@ -85,7 +85,7 @@ var jQl={
 	 * in the right order and purge the queue
 	 *
 	 */
-	"ungs":function(){
+	'ungs':function(){
 		for(var i=0;i<jQl.gs.length;i++)
 			jQuery.getScript(jQl.gs[i][0],jQl.gs[i][1]);
 		jQl.gs=[];
@@ -100,8 +100,8 @@ var jQl={
 	 *	a callback to call after jQuery is loaded
 	 *
 	 */
-	"bId":null,
-	"boot":function(callback){
+	'bId':null,
+	'boot':function(callback){
 		if(typeof window.jQuery.fn == 'undefined'){
 			if (!jQl.bId) {
 				jQl.bId = setInterval(function(){jQl.boot(callback)},25);
@@ -127,7 +127,7 @@ var jQl={
 		if(typeof callback=='function') callback();
 	},
 
-	"booted":function(){return jQl.bId===0},
+	'booted':function(){return jQl.bId===0},
 
 
 	/**
@@ -138,7 +138,7 @@ var jQl={
 	 *   or a compiled js including jQuery
 	 * @param callback
 	 */
-	"loadjQ":function(src,callback){
+	'loadjQ':function(src,callback){
 		setTimeout(
 			function(){
 				var s=document.createElement('script');
@@ -172,7 +172,7 @@ var jQl={
 	 * the jQ-dependant script is queued or run when loaded,
 	 * depending of jQuery loading state
 	 */
-	"loadjQdep":function(src){
+	'loadjQdep':function(src){
 		jQl.loadxhr(src, jQl.qdep);
 	},
 
@@ -186,9 +186,9 @@ var jQl={
 	 * @param string src
 	 *   the source url of the script, not used here
 	 */
-	"qdep":function(txt, src){
+	'qdep':function(txt, src){
 		if (txt){
-			if (typeof window.jQuery.fn!=="undefined" && !jQl.dq.length){
+			if (typeof window.jQuery.fn!=='undefined' && !jQl.dq.length){
 				jQl.rs(txt);
 			}
 			else {
@@ -201,10 +201,10 @@ var jQl={
 	 * dequeue jQuery-dependent modules loaded before jQuery
 	 * call once only
 	 */
-	"unqjQdep":function(){
+	'unqjQdep':function(){
 		// security, should never happen
 		// so we keep setTimeout even if setInterval would be cleaner
-		if (typeof window.jQuery.fn=="undefined"){
+		if (typeof window.jQuery.fn=='undefined'){
 			setTimeout(jQl.unqjQdep, 50);
 			return;
 		}
@@ -220,7 +220,7 @@ var jQl={
 	 * @param string src
 	 *   original source of the script (not used here)
 	 */
-	"rs":function(txt, src){
+	'rs':function(txt, src){
 		var se = document.createElement('script');
 		document.getElementsByTagName('head')[0].appendChild(se);
 		se.text = txt;
@@ -231,7 +231,7 @@ var jQl={
 	 * credits http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/
 	 *
 	 */
-	"loadxhr":function(src,callback) {
+	'loadxhr':function(src,callback) {
 		var xoe;
 		xoe = jQl.getxo();
 		xoe.onreadystatechange = function() {
@@ -251,7 +251,7 @@ var jQl={
 	 * credits http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/
 	 *
 	 */
-	"getxo":function (){
+	'getxo':function (){
 		var xhrObj = false;
 		try {
 			xhrObj = new XMLHttpRequest();
